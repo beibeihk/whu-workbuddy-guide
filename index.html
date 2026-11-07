@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101a3b">
+<title>武大大模型 API × WorkBuddy｜从申请到跑通 Qwen 27B</title>
+<meta name="description" content="武大师生上手教程：智慧珞珈申请、领取个人 API Key、在 WorkBuddy 配置 qwen-27b 并完成一次真实对话测试。">
+<link rel="canonical" href="https://beibeihk.github.io/whu-workbuddy-guide/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="武大大模型 API × WorkBuddy">
+<meta property="og:description" content="四步跑通 Qwen 27B：校内申请 · 领取密钥 · 添加模型 · 发消息验证">
+<meta property="og:url" content="https://beibeihk.github.io/whu-workbuddy-guide/">
+<meta property="og:image" content="https://beibeihk.github.io/whu-workbuddy-guide/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<style>
+:root{color-scheme:light;--ink:#171e34;--muted:#525b72;--blue:#2548ba;--line:#dce1ed;--paper:#f7f8fc;--white:#fff;--dark:#111c40;--mint:#c8f8df;--sans:system-ui,-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;--mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace}
+*,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:84px}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.75}a{color:var(--blue);text-underline-offset:4px}a:hover{text-decoration-thickness:2px}button{font:inherit;cursor:pointer}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #5477ff;outline-offset:4px}h1,h2,h3,p{margin:0}code{font-family:var(--mono);overflow-wrap:anywhere}strong{font-weight:750}.wrap{width:min(1120px,calc(100% - 48px));margin-inline:auto}.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.skip{position:fixed;z-index:10;left:12px;top:8px;padding:8px 14px;background:white;transform:translateY(-160%)}.skip:focus{transform:none}.top{background:#101936;color:#ecf1ff;border-bottom:1px solid #ffffff25}.top .wrap{height:64px;display:flex;justify-content:space-between;align-items:center;gap:16px}.brand{display:flex;align-items:center;gap:9px;font-weight:750;letter-spacing:.07em}.glyph{display:grid;place-items:center;width:26px;height:26px;border:1px solid #b3c7ff;border-radius:7px;color:#dce6ff}.share{background:transparent;color:inherit;border:1px solid #afc4ff70;border-radius:8px;padding:6px 12px;font-size:.83rem}.share:hover{background:#ffffff14}
+.hero{position:relative;overflow:hidden;background:radial-gradient(ellipse at 76% 45%,#253d80 0%,transparent 61%),#101936;color:white}.hero:before{content:"";position:absolute;inset:0;opacity:.19;background-image:linear-gradient(90deg,#9cb1ff35 1px,transparent 1px),linear-gradient(#9cb1ff35 1px,transparent 1px);background-size:40px 40px;mask-image:linear-gradient(90deg,transparent 20%,black)}.hero-grid{position:relative;display:grid;grid-template-columns:1.12fr .88fr;align-items:center;gap:clamp(26px,5vw,68px);padding-block:clamp(48px,8vw,99px)}.kicker,.label{font:700 .76rem/1.4 var(--mono);letter-spacing:.14em}.kicker{color:#b3c8ff}.hero h1{margin:13px 0 18px;font-size:clamp(2.55rem,5.4vw,4.75rem);letter-spacing:-.055em;font-weight:850;line-height:1.12}.hero h1 span{display:block;color:#c4d4ff}.hero p{max-width:33rem;color:#d1dafa;font-size:clamp(.97rem,1.55vw,1.11rem)}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}.btn{display:inline-flex;gap:7px;align-items:center;justify-content:center;min-height:42px;border-radius:9px;padding:8px 15px;font-weight:750;text-decoration:none}.btn.primary{background:#d8e3ff;color:#152553}.btn.secondary{color:#e4edff;border:1px solid #a6beff75}.btn:hover{filter:brightness(1.05)}.hero-note{margin-top:19px;font-size:.8rem;color:#c4d0ef}
+.flow{border:1px solid #a6beff62;border-radius:18px;padding:19px 20px 16px;background:linear-gradient(135deg,#233b76a3,#111a39df);box-shadow:0 16px 56px #02081c59}.flow-head,.flow-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;color:#d4dfff;font:600 .72rem/1.4 var(--mono);letter-spacing:.09em}.flow-head{padding-bottom:14px;border-bottom:1px solid #abbcfa37}.signal{display:inline-flex;align-items:center;gap:6px;color:var(--mint)}.signal:before{content:"";width:6px;height:6px;border-radius:50%;background:#8aefbf;box-shadow:0 0 12px #8aefbf}.flow-track{padding-block:16px;display:grid;gap:11px}.node{display:flex;align-items:center;gap:12px;background:#ffffff09;border:1px solid #abc4fa34;border-radius:10px;padding:10px 12px}.node i{font:700 .76rem var(--mono);font-style:normal;color:#b1c8ff;flex:none}.node span{font-size:.93rem;font-weight:700}.node small{margin-left:auto;color:#c1cdef;font-size:.72rem;text-align:right}.wire{height:7px;border-left:1px dashed #a3baff99;margin:-10px 0 -10px 21px;z-index:1}.flow-foot{padding-top:12px;border-top:1px solid #abbcfa37}.flow-foot code{color:var(--mint);letter-spacing:0}
+.rail{position:sticky;top:0;z-index:4;background:#f7f8fcf7;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}.rail .wrap{display:flex;align-items:center;gap:clamp(15px,4vw,46px);min-height:56px;overflow:auto;scrollbar-width:none}.rail .wrap::-webkit-scrollbar{display:none}.rail a{white-space:nowrap;display:inline-flex;align-items:center;gap:6px;min-height:56px;color:#2b3656;text-decoration:none;font-size:.87rem;font-weight:650}.rail a:hover{color:var(--blue)}.rail a b{font:700 .72rem var(--mono);color:var(--blue)}.progress{height:2px;background:#5579ef;position:absolute;bottom:-1px;left:0;width:0;pointer-events:none}
+.content{padding-block:12px 28px}.step{display:grid;grid-template-columns:120px minmax(0,1fr);gap:26px;padding-block:46px;border-bottom:1px solid var(--line)}.step-id{font:800 clamp(2.2rem,5vw,4rem)/1 var(--mono);letter-spacing:-.08em;color:var(--blue)}.step-id .label{display:block;color:var(--muted);margin-top:11px;letter-spacing:.1em}.step h2,.faq h2{font-size:clamp(1.6rem,3vw,2.35rem);letter-spacing:-.045em;line-height:1.25;margin-bottom:11px}.lede{color:var(--muted);max-width:47rem;margin-bottom:18px}.route{display:flex;flex-wrap:wrap;gap:5px 9px;align-items:center;margin:0 0 18px;padding:0;list-style:none}.route li{background:#e9eeff;color:#24419a;font-size:.84rem;font-weight:700;padding:4px 10px;border-radius:6px}.route li+li:before{content:none}.route .arrow{background:none;color:#6578ab;padding:0}.steps-list{margin:0 0 16px;padding-left:1.45em}.steps-list li{margin:6px 0;padding-left:3px}.callout{border-left:3px solid #5576ec;background:#edf1ff;border-radius:0 9px 9px 0;padding:12px 15px;margin-top:17px;font-size:.91rem;color:#2d3b63}.callout strong{color:#1c378e}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.actions a{font-size:.87rem;border:1px solid #b9c8ed;padding:6px 12px;border-radius:8px;background:white;text-decoration:none;font-weight:700}.actions a:hover{background:#edf2ff}.copy{min-height:36px;padding:4px 10px;flex:none;background:white;color:#2444a7;border:1px solid #c5d1ef;border-radius:7px;font-size:.78rem;font-weight:750;white-space:nowrap}.copy:hover{background:#e9efff}.sample{background:white;border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;align-items:flex-start;gap:12px;margin-top:14px}.sample>div{flex:1;min-width:0}.sample .label{color:#526286;margin-bottom:5px}.sample p{font-size:.91rem;color:#303952}
+.split{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:14px;margin-top:16px}.mini{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden}.mini-head{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#eef2fc;color:#334164;padding:9px 13px;font-size:.78rem;font-weight:750}.mini-body{padding:14px}.mini-body p{color:var(--muted);font-size:.89rem}.mini-body h3{font-size:1rem;margin-bottom:4px}.masked{font:650 .98rem/1.6 var(--mono);letter-spacing:.18em;color:#2a3d66;margin-block:4px 8px}.tag{color:#176240;background:#ddf5e6;border-radius:999px;padding:2px 8px;font-size:.73rem;font-weight:750}.model-chip{display:inline-flex;padding:2px 9px;background:#e9eeff;color:#234097;border-radius:6px;font-family:var(--mono);font-size:.92rem}
+.config{border:1px solid #cbd5ef;border-radius:13px;overflow:hidden;background:white;margin:15px 0 16px}.config h3{font-size:.89rem;background:#eaf0ff;color:#273e82;padding:9px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px}.config h3 small{font-weight:500;color:#515f83}.config dl{margin:0}.field{display:grid;grid-template-columns:118px minmax(0,1fr) auto;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid #e4e9f4}.field dt{color:var(--muted);font-size:.86rem;font-weight:650}.field dd{margin:0;min-width:0}.field code{font-size:.88rem;color:#223d92}.field .key-hint{font-size:.88rem;color:#434e6c}.verify{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0;padding:0;list-style:none}.verify li{border:1px solid #d9e1f3;border-radius:10px;padding:11px 13px;background:#fcfdff;font-size:.9rem}.verify b{color:#2a489e;margin-right:5px}
+.chat{border:1px solid #becbf1;border-radius:14px;overflow:hidden;background:#f1f4ff;margin-top:17px}.chat .mini-head{background:#e3eaff}.chat-body{padding:14px;display:grid;gap:11px}.bubble{border-radius:10px;padding:9px 12px;font-size:.9rem;max-width:min(85%,42rem)}.bubble.ask{justify-self:end;background:#dce6ff;color:#24386a}.bubble.reply{justify-self:start;background:#fff;border:1px solid #d3def7;color:#1d523e;font-weight:760}.chat-meta{color:#4d5e83;font-size:.77rem}.chat-controls{display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap}
+.faq{padding:38px 0 34px 146px}.faq details{border-bottom:1px solid var(--line)}.faq details:first-of-type{border-top:1px solid var(--line);margin-top:15px}.faq summary{cursor:pointer;font-weight:720;min-height:46px;padding:11px 4px}.faq details p{padding:0 4px 13px;color:var(--muted);font-size:.91rem}.footer{background:#e9eefb;border-top:1px solid #d8e0f5;color:#3c4868;padding:26px 0 30px;font-size:.86rem}.footer .wrap{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}.footer p+p{margin-top:4px}.footer-links{display:flex;flex-wrap:wrap;gap:7px 14px}.toast{position:fixed;z-index:5;bottom:max(18px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);max-width:calc(100% - 24px);padding:8px 15px;border-radius:10px;color:white;background:#17264d;box-shadow:0 8px 25px #00164238;font-size:.87rem}
+@media(max-width:760px){.wrap{width:calc(100% - 34px)}.hero-grid{grid-template-columns:1fr;gap:26px;padding:36px 0 28px}.hero h1{font-size:clamp(2.34rem,8.7vw,4rem);margin-bottom:12px}.hero-actions{margin-top:19px}.hero-note{margin-top:12px}.flow{padding:13px}.flow-track{padding-block:10px;gap:7px}.node{padding:7px 10px}.wire{display:none}.flow-head{padding-bottom:9px}.flow-foot{padding-top:8px}.rail .wrap{gap:20px}.step{grid-template-columns:1fr;gap:10px;padding-block:31px}.step-id{display:flex;align-items:center;gap:10px;font-size:2rem}.step-id .label{display:inline;margin:0}.faq{padding:25px 0 18px}.footer .wrap{display:grid;gap:9px}}
+@media(max-width:470px){.top .wrap{height:54px}.brand{font-size:.86rem}.share{font-size:.76rem}.split,.verify{grid-template-columns:1fr}.field{grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;padding:9px 11px}.field dt{grid-column:1/-1}.sample{padding:11px;gap:7px}.sample p{font-size:.85rem}.chat-body{padding:11px}.bubble{max-width:93%}.node small{font-size:.68rem}.actions a{font-size:.8rem}.rail a{font-size:.8rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{.top,.rail,.hero-actions,.copy,.toast{display:none!important}.hero,.footer{background:white;color:#161d33}.hero h1 span,.hero p,.kicker,.hero-note{color:#161d33}.hero-grid{display:block;padding:0 0 16px}.flow{display:none}.step{padding-block:18px;break-inside:avoid}.faq{padding-left:0}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到教程正文</a>
+<header class="top"><div class="wrap"><div class="brand"><span class="glyph" aria-hidden="true">↗</span>珞珈 · 科研工具手册</div><button type="button" class="share" data-copy="share">复制教程链接</button></div></header>
+<section class="hero" aria-labelledby="title">
+<div class="wrap hero-grid">
+<div><p class="kicker">WHU MAAS / WORKBUDDY</p><h1 id="title">武大大模型 API<span>接入 WorkBuddy</span></h1>
+<p>用自己的校园账号申请 API，从武大平台取到密钥，然后在 WorkBuddy 里用 <code>qwen-27b</code> 跑通第一条对话。</p>
+<div class="hero-actions"><a class="btn primary" href="#apply">从申请开始 ↓</a><a class="btn secondary" href="#configure">已有密钥，直接配置 →</a></div>
+<div class="hero-note">面向武大师生 · Windows 桌面端实测 · 2026 年 11 月</div></div>
+<div class="flow" aria-label="从校园申请到 WorkBuddy 对话的四步流程">
+<div class="flow-head"><span>REQUEST PATH</span><span class="signal">已实测</span></div>
+<div class="flow-track"><div class="node"><i>01</i><span>智慧珞珈</span><small>发起校内申请</small></div><div class="wire" aria-hidden="true"></div><div class="node"><i>02</i><span>武大大模型服务平台</span><small>个人 API Key</small></div><div class="wire" aria-hidden="true"></div><div class="node"><i>03</i><span>WorkBuddy 自定义模型</span><small>填入接口和模型 ID</small></div><div class="wire" aria-hidden="true"></div><div class="node"><i>04</i><span>新任务对话</span><small>核对回复与模型</small></div></div>
+<div class="flow-foot"><span>MODEL ID</span><code>qwen-27b</code></div></div>
+</div></section>
+<nav class="rail" aria-label="教程目录"><div class="wrap"><a href="#apply"><b>01</b> 校内申请</a><a href="#key"><b>02</b> 领取密钥</a><a href="#configure"><b>03</b> 配置模型</a><a href="#test"><b>04</b> 对话测试</a><a href="#faq">常见问题</a></div><div class="progress" aria-hidden="true"></div></nav>
+<main id="main" class="wrap content">
+<section class="step" id="apply" aria-labelledby="apply-title"><div class="step-id" aria-hidden="true">01<span class="label">APPLY</span></div><div>
+<h2 id="apply-title">在智慧珞珈提交申请</h2><p class="lede">用武汉大学统一身份认证登录，在办事大厅找到由智慧校园部办理的「大模型API申请」。</p>
+<ol class="route" aria-label="申请路径"><li>智慧珞珈</li><li class="arrow" aria-hidden="true">→</li><li>办事大厅</li><li class="arrow" aria-hidden="true">→</li><li>大模型API申请</li></ol>
+<ol class="steps-list"><li>打开事项，点<strong>立即申请</strong>。核对系统带入的身份信息，补充联系邮箱与 API 用途。</li><li>用途写明实际任务、会处理什么材料，以及为什么需要调用 API。可以参考下方句子，按自己的研究改写。</li><li>点<strong>立即提交</strong>，保留系统默认的智慧校园部审核节点，确认提交。之后在「我的申请」看审批进度。</li></ol>
+<div class="sample"><div><p class="label">用途示例 · 按实际情况修改</p><p id="purpose">用于公开政策文本和文献摘要的批量分类与信息提取。计划通过 API 对公开样本开展模型评测，并保留处理过程以便复现。</p></div><button class="copy" type="button" data-copy="purpose">复制</button></div>
+<div class="callout"><strong>搜不到时</strong>，进办事大厅，在智慧校园部分类下找「大模型API申请」。公告里多了「服务」二字，搜索时用办事大厅里的短名称。</div>
+<div class="actions"><a href="https://hall.whu.edu.cn/infoplus/form/DMXAPISQ/start">打开事项直达页 ↗</a><a href="https://zhlj.whu.edu.cn/">打开智慧珞珈 ↗</a></div>
+</div></section>
+<section class="step" id="key" aria-labelledby="key-title"><div class="step-id" aria-hidden="true">02<span class="label">GET KEY</span></div><div>
+<h2 id="key-title">审批通过后，复制自己的 API Key</h2><p class="lede">登录武大大模型服务平台。在左侧「虚拟密钥」里找到状态正常的密钥，复制<strong>密钥值</strong>。如果平台已为你生成一条，直接用现有密钥。</p>
+<div class="split"><div class="mini"><div class="mini-head"><span>虚拟密钥</span><span>界面示意</span></div><div class="mini-body"><span class="tag">正常</span><div class="masked" aria-label="已遮盖的密钥示意">•••• •••• ••••</div><p>复制你账户里的密钥值。</p></div></div><div class="mini"><div class="mini-head"><span>模型广场</span><span>界面示意</span></div><div class="mini-body"><h3><code class="model-chip">qwen-27b</code></h3><p>平台列为通义千问 3.8-27B，标记「本地部署」。</p></div></div></div>
+<div class="callout"><strong>额度与保管。</strong>校方通知给出的试运行额度为每人每月 300 积分，实际可调用量随模型计费而变。API Key 只填进自己的客户端；群聊、截图、公开代码和文档里都别放真实密钥。测试时用公开或合成材料。</div>
+<div class="actions"><a href="https://maas.whu.edu.cn/">打开武大大模型服务平台 ↗</a></div>
+</div></section>
+<section class="step" id="configure" aria-labelledby="config-title"><div class="step-id" aria-hidden="true">03<span class="label">CONFIGURE</span></div><div>
+<h2 id="config-title">在 WorkBuddy 添加自定义模型</h2><p class="lede">打开 WorkBuddy 桌面端，进入「头像 → 设置 → 模型 → 添加模型」。在供应商下拉列表中选「自定义」，也可以在列表里搜索这三个字。</p>
+<div class="config"><h3>WorkBuddy 配置对照 <small>操作示意</small></h3><dl>
+<div class="field"><dt>供应商</dt><dd>自定义（OpenAI 兼容）</dd></div>
+<div class="field"><dt>接口地址</dt><dd><code id="endpoint">https://maas.whu.edu.cn/v1/chat/completions</code></dd><button class="copy" type="button" data-copy="endpoint" aria-label="复制接口地址">复制</button></div>
+<div class="field"><dt>API Key</dt><dd class="key-hint">粘贴你在步骤 02 复制的密钥值</dd></div>
+<div class="field"><dt>模型名称</dt><dd><code id="model">qwen-27b</code></dd><button class="copy" type="button" data-copy="model" aria-label="复制模型 ID">复制</button></div>
+</dl></div>
+<ol class="verify"><li><b>①</b> 点「测试连接」，等页面显示「连接成功」。</li><li><b>②</b> 点「保存」，确认自定义模型列表里出现 <code>qwen-27b</code>。</li></ol>
+<div class="callout">有些 SDK 填的是基础地址 <code>https://maas.whu.edu.cn/v1</code>。上表是本次在 WorkBuddy 中实测的<strong>完整对话接口</strong>。</div>
+</div></section>
+<section class="step" id="test" aria-labelledby="test-title"><div class="step-id" aria-hidden="true">04<span class="label">TEST</span></div><div>
+<h2 id="test-title">新建任务，发一条短消息</h2><p class="lede">新建空白任务，在输入框旁打开模型选择器，滚到「自定义模型」，选中 <code>qwen-27b</code> 后再发送。回复底部显示的模型名也应是 <code>qwen-27b</code>。</p>
+<div class="chat"><div class="mini-head"><span>对话测试</span><code>qwen-27b</code></div><div class="chat-body">
+<div class="bubble ask" id="prompt">这是连通性测试。请直接回复「武大 Qwen 27B 连接成功」，无需调用工具或读取文件。</div>
+<div class="bubble reply">武大 Qwen 27B 连接成功</div>
+<div class="chat-controls"><p class="chat-meta">本次 Windows 桌面端实测约 31 秒，耗时会随负载和任务变化。</p><button class="copy" type="button" data-copy="prompt">复制测试提示词</button></div>
+</div></div>
+</div></section>
+<section class="faq" id="faq" aria-labelledby="faq-title"><h2 id="faq-title">卡住了怎么排查</h2>
+<details><summary>申请提交后，平台里还没有密钥</summary><p>先到办事大厅的「我的申请」查看办理进度。若已办结，核对两个平台是否登录同一个武大账号，再查看「虚拟密钥」。仍无可用密钥时，按平台提示联系智慧校园部。</p></details>
+<details><summary>WorkBuddy 的「测试连接」失败</summary><p>对照上表检查接口地址、模型 ID 和密钥值，尤其注意不要粘贴多余空格或把模型展示名填成 ID。若返回 401，优先检查密钥；若提示限流或额度不足，到武大平台查看密钥状态、余额和模型权限。</p></details>
+<details><summary>连接测试成功，聊天时却没有回复</summary><p>确认新任务选的是「自定义模型」里的 <code>qwen-27b</code>，再发一条无附件的短文本。若仍报错，记录错误提示，核对模型状态和用量。短文本跑通后，可分别测试图片、工具调用等任务所需的能力。</p></details>
+</section>
+</main>
+<footer class="footer"><div class="wrap"><div><p><strong>武大大模型 API × WorkBuddy</strong></p><p>实操笔记 · 界面示意已脱敏 · 2026 年 11 月 7 日实测</p></div>
+<div class="footer-links"><a href="https://mp.weixin.qq.com/s/L9nx3giCRPRR6D_uWQxZtA">武大智慧校园部通知 ↗</a><a href="https://www.workbuddy.ai/docs/zh/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Model-Configuration">WorkBuddy 模型配置文档 ↗</a></div></div></footer>
+<div id="status" class="toast" role="status" hidden></div>
+<script>
+const status = document.querySelector('#status');
+let noticeTimer;
+function notice(message) {
+  status.textContent = message;
+  status.hidden = false;
+  clearTimeout(noticeTimer);
+  noticeTimer = setTimeout(() => { status.hidden = true; }, 2300);
+}
+function legacyCopy(text) {
+  const field = document.createElement('textarea');
+  const previous = document.activeElement;
+  field.value = text;
+  field.readOnly = true;
+  field.style.cssText = 'position:fixed;left:0;top:0;opacity:0;font-size:16px;';
+  document.body.append(field);
+  field.focus();
+  field.select();
+  field.setSelectionRange(0, text.length);
+  try { return document.execCommand('copy'); }
+  catch { return false; }
+  finally { field.remove(); previous?.focus({preventScroll:true}); }
+}
+document.addEventListener('click', async event => {
+  const button = event.target.closest('button[data-copy]');
+  if (!button) return;
+  const target = button.dataset.copy;
+  const text = target === 'share'
+    ? document.querySelector('link[rel=canonical]').href
+    : document.getElementById(target).textContent.trim();
+  try {
+    await navigator.clipboard.writeText(text);
+    notice(target === 'share' ? '教程链接已复制' : '已复制');
+  } catch {
+    if (legacyCopy(text)) notice(target === 'share' ? '教程链接已复制' : '已复制');
+    else notice(target === 'share' ? '请从浏览器地址栏复制链接' : '请长按所需文字复制');
+  }
+});
+const progress = document.querySelector('.progress');
+function updateProgress() {
+  const span = document.documentElement.scrollHeight - innerHeight;
+  progress.style.width = (span > 0 ? Math.min(100, Math.max(0, scrollY / span * 100)) : 0) + '%';
+}
+addEventListener('scroll', updateProgress, {passive:true});
+addEventListener('resize', updateProgress);
+updateProgress();
+</script>
+</body>
+</html>
